@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Realtime Chat</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="authModal" class="modal">
+    <div class="modal-content">
+        <h2>Enter Email</h2>
+        <p>Register or continue with your email.</p>
+        <input id="emailInput" type="email" placeholder="name@example.com">
+        <button id="startBtn">Continue</button>
+        <p id="authError" class="error"></p>
+    </div>
+</div>
+
+<div class="app">
+    <aside class="sidebar" id="sidebar">
+        <div class="me">
+            <h3 id="myEmail">-</h3>
+            <span id="connectionBadge" class="offline">offline</span>
+        </div>
+        <h4>Users</h4>
+        <ul id="userList"></ul>
+    </aside>
+
+    <main class="chat" id="chatPanel">
+        <header class="chat-header">
+            <button id="backBtn" class="icon-btn" aria-label="Back to users">←</button>
+            <h3 id="chatWith">Select user to chat</h3>
+        </header>
+
+        <section id="messages" class="messages"></section>
+
+        <footer class="chat-input">
+            <button id="emojiBtn" class="icon-btn" type="button" aria-label="Open emoji picker">😀</button>
+            <input id="messageInput" type="text" placeholder="Type a message" disabled>
+            <button id="sendBtn" disabled>Send</button>
+            <div id="emojiPanel" class="emoji-panel hidden">
+                <emoji-picker id="emojiPicker"></emoji-picker>
+            </div>
+        </footer>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
