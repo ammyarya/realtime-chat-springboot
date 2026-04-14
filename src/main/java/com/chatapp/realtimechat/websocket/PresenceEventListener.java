@@ -38,7 +38,8 @@ public class PresenceEventListener {
 
         try {
             User user = userService.getByEmail(email);
-            messagingTemplate.convertAndSend("/topic/presence", new UserResponse(user.getId(), user.getEmail(), true));
+            messagingTemplate.convertAndSend("/topic/presence",
+                    new UserResponse(user.getId(), user.getEmail(), userService.resolveDisplayName(user), true));
         } catch (IllegalArgumentException ignored) {
             // anonymous socket
         }
@@ -51,7 +52,8 @@ public class PresenceEventListener {
         userService.setOnline(email, false);
         try {
             User user = userService.getByEmail(email);
-            messagingTemplate.convertAndSend("/topic/presence", new UserResponse(user.getId(), user.getEmail(), false));
+            messagingTemplate.convertAndSend("/topic/presence",
+                    new UserResponse(user.getId(), user.getEmail(), userService.resolveDisplayName(user), false));
         } catch (IllegalArgumentException ignored) {
             // anonymous socket
         }

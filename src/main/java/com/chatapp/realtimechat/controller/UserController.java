@@ -1,17 +1,15 @@
 package com.chatapp.realtimechat.controller;
 
+import java.security.Principal;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chatapp.realtimechat.dto.RegisterRequest;
+import com.chatapp.realtimechat.dto.ProfileUpdateRequest;
 import com.chatapp.realtimechat.dto.UserResponse;
 import com.chatapp.realtimechat.service.UserService;
 
@@ -26,14 +24,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse register(@Valid @RequestBody RegisterRequest request) {
-        return userService.register(request);
+    @GetMapping
+    public List<UserResponse> users(Principal principal) {
+        return userService.getUsersExcluding(principal.getName());
     }
 
-    @GetMapping
-    public List<UserResponse> users(@RequestParam(required = false) String currentEmail) {
-        return userService.getUsersExcluding(currentEmail);
+    @GetMapping("/me")
+    public UserResponse me(Principal principal) {
+        return userService.getProfile(principal.getName());
+    }
+
+    @PutMapping("/profile")
+    public UserResponse updateProfile(@Valid @RequestBody ProfileUpdateRequest request, Principal principal) {
+        return userService.updateProfile(principal.getName(), request);
     }
 }

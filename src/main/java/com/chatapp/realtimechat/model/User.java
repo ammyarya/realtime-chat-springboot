@@ -18,6 +18,13 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(length = 120)
+    private String displayName;
+
+    /** BCrypt hash; null for legacy rows until user sets a password */
+    @Column(name = "password_hash", length = 120)
+    private String passwordHash;
+
     @Column(nullable = false)
     private boolean online;
 
@@ -35,6 +42,22 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public boolean isOnline() {

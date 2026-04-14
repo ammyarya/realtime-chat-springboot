@@ -37,12 +37,22 @@ public class ChatController {
     }
 
     @GetMapping("/history")
-    public List<ChatMessageResponse> history(@RequestParam String user1, @RequestParam String user2) {
+    public List<ChatMessageResponse> history(
+            @RequestParam String user1,
+            @RequestParam String user2,
+            Principal principal) {
+        String me = principal.getName();
+        if (!me.equalsIgnoreCase(user1) && !me.equalsIgnoreCase(user2)) {
+            throw new IllegalArgumentException("Forbidden");
+        }
         return chatService.history(user1, user2);
     }
 
     @PutMapping("/seen")
-    public void seen(@RequestParam String viewer, @RequestParam String friend) {
+    public void seen(@RequestParam String viewer, @RequestParam String friend, Principal principal) {
+        if (!principal.getName().equalsIgnoreCase(viewer)) {
+            throw new IllegalArgumentException("Forbidden");
+        }
         chatService.markSeenForChat(viewer, friend);
     }
 }
